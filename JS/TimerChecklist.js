@@ -2,7 +2,8 @@ const DISPLAY_TEXT = document.querySelector(".center");
 const CHECKBOX_LIST = document.querySelectorAll("input");
 const BUTTON_LIST = document.querySelectorAll("button");
 const BUTTONTEXT_LIST = document.querySelectorAll("p");
-//This should be how many ten hundredths of a second you want it to blink for
+const TEXTBOX_BACKGROUND = document.querySelector(".bigRectangle");
+//This should be how many hundredths of a second you want it to blink for
 const MAX_BLINKSECONDS = 50;
 
 var activeSelection = null;
@@ -11,7 +12,7 @@ var m_btnTxtList_Length = BUTTONTEXT_LIST.length;
 var m_seconds = 0;
 var m_interval = null;
 var m_blinkSeconds = 0;
-var m_isRunning = false;
+var m_isRunning = false, isBlinking = false;
 
 //adding leading zeros for aesthetics
 function LeadingZero(time) {
@@ -32,38 +33,81 @@ function UpdateTimer() {
     if (m_seconds === 0) {
         //setting the blink seconds the max blink
         m_blinkSeconds = MAX_BLINKSECONDS;
+
+        //setting the activeSelection checkbox to checked
+        CHECKBOX_LIST[activeSelection.value].checked = true;
+
+        //applying a strikethrough to the text
+        var strikeVersion = BUTTONTEXT_LIST[activeSelection.value].innerHTML.strike();
+        BUTTONTEXT_LIST[activeSelection.value].innerHTML = strikeVersion;
+
         //clearing the interval and assigning it to the Blink function
         clearInterval(m_interval);
-        Blink();
 
-        //changing all text to black
-        for (var index = 0; index < m_btnTxtList_Length; index++) {
-            //if the checkbox is check do not change it to black
-            if (CHECKBOX_LIST[index].checked == true) {
-                continue;
-            }
-            //change indices' text color
-            BUTTONTEXT_LIST[index].style.color = "black";
-        }
+        //setting blinking on
+        isBlinking = true;
 
+        //initializing the interval
+        m_interval = setInterval(Blink, 100);
     }
+
     //display the time to the user
     DisplayTime();
 }
 
 function Blink() {
-    //blinks for 5 seconds
+
+    --m_blinkSeconds;
+
+    if (m_blinkSeconds === 0) {
+        StopBlink();
+        return;
+    }
+
+    //flicker the colors back and forth
+    if (TEXTBOX_BACKGROUND.style["background-color"] == "transparent") {
+        TEXTBOX_BACKGROUND.style["background-color"] = "red";
+    }
+    else {
+        TEXTBOX_BACKGROUND.style["background-color"] = "transparent";
+    }
+
+}
+
+function StopBlink() {
+
+    if (isBlinking === false) {
+        return;
+    }
+
+    isBlinking = false;
+
+    //change the background color to red
+    TEXTBOX_BACKGROUND.style["background-color"] = "red";
+
+    //clearing the interval and assigning it to the Blink function
+    clearInterval(m_interval);
 
     //once the blink is done call reset
-    Reset()
+    Reset();
 }
 
 function Reset() {
     m_isRunning = false;
-    CHECKBOX_LIST[activeSelection.value].checked = true;
+
+    //changing all text to black --- placing this for loop here does me 
+    for (var index = 0; index < m_btnTxtList_Length; index++) {
+        //if the checkbox is check do not change it to black
+        if (CHECKBOX_LIST[index].checked == true) {
+            continue;
+        }
+        //change indices' text color
+        BUTTONTEXT_LIST[index].style.color = "black";
+    }
 }
 
 function MakeActive(e) {
+
     //if the timer is running make sure no input is recognized
     if (m_isRunning === true) {
         return;
@@ -87,6 +131,7 @@ function MakeActive(e) {
 
     //setting the activateSelection to the new target that was passed Over
     activeSelection = e.target;
+
 }
 
 function StartTask(e) {
@@ -99,13 +144,14 @@ function StartTask(e) {
 
     //if the target and activeSelection are not equal
     if (e.target != activeSelection) {
-       //leave function
+        //leave function
         return;
     }
 
     //finding the index value for the checkbox
     const indexNumber = activeSelection.value;
     const checkboxObj = CHECKBOX_LIST[indexNumber];
+
     //if the checkbox is checked
     if (checkboxObj.checked === true) {
         //leave function
@@ -117,7 +163,6 @@ function StartTask(e) {
 
     //retrieving the time in seconds
     m_seconds = checkboxObj.value;
-    console.log(m_seconds + " Seconds");
 
     //changing all text to grey
     for (let index = 0; index < m_btnTxtList_Length; index++) {
@@ -154,5 +199,6 @@ for (var index = 0; index < selectionRect_ListSize; index++) {
 
     BUTTON_LIST[index].addEventListener('mouseenter', MakeActive, false);
     BUTTON_LIST[index].addEventListener('mousedown', StartTask, false);
-
 }
+
+window.addEventListener('click', StopBlink, false);
