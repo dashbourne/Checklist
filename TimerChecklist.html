@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Test Checklist</title>
+
+    <script src="JS/TimerChecklist.js" async></script>
+
+    <style>
+
+        .container {
+            position: relative;
+            top: 50px;
+        }
+
+        .bigRectangle {
+            width: auto;
+            height: 100px;
+            opacity: 0.7;
+            color: transparent;
+            background-color: red;
+            border: hidden;
+        }
+
+        .center {
+            position: absolute;
+            top: 45%;
+            width: 100%;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .checkboxContainer {
+            position: relative;
+            bottom: 10px;
+        }
+
+        button {
+            position: absolute;
+            top: 0px;
+            left: 24px;
+            height: auto;
+            bottom: 1px;
+            opacity: 1;
+            text-align: start;
+            border-color: transparent;
+            background-color: transparent;
+            outline-color: transparent;
+        }
+
+        p {
+            position: absolute;
+            top: -13.5px;
+            left: 5px;
+            z-index:-1;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <h3 style="text-align:center">Timer Checklist Prototype</h3>
+    
+    <form>
+        <div class="checkboxContainer">
+            <input type="checkbox" value="1"><br>
+            <button type="button" value="0" style="width: 75px">
+                <p>Wake up</p>
+            </button>
+        </div>
+        <div class="checkboxContainer">
+            <input type="checkbox" value="10"><br />
+            <button type="button" value="1" style="width: 110px">
+                <p>Get out of bed</p>
+            </button>
+        </div>
+        <div class="checkboxContainer">
+            <input type="checkbox" value="360"><br>
+            <button type="button" value="2" style="width: 120px">
+                <p>Go to Bathroom</p>
+            </button>
+        </div>
+        <div class="checkboxContainer">
+            <input type="checkbox" value="75"><br>
+            <button type="button" value="3" style="width: 120px">
+                <p>Get into shower</p>
+            </button>
+        </div>
+        <div class="checkboxContainer">
+            <input type="checkbox" value="60"><br>
+            <button type="button" value="4" style="width: 145px">
+                <p>Apply soap to body</p>
+            </button>
+        </div>
+        <div class="checkboxContainer">
+            <input type="checkbox" value="1"><br>
+            <button type="button" value="5" style="width: 135px">
+                <p>Rinse yourself off</p>
+            </button>
+        </div>
+        <div class="checkboxContainer">
+            <input type="checkbox" value="1"><br>
+            <button type="button" value="6" style="width: 95px">
+                <p>Exit Shower</p>
+            </button>
+        </div>
+        <div class="checkboxContainer">
+            <input type="checkbox" value="3"><br>
+            <button type="button" value="7" style=" width: 205px">
+                <p>Dry yourself off with a towel</p>
+            </button>
+        </div>
+    </form>
+
+    <div class="container">
+        <div class="bigRectangle "></div>
+        <div class="center">Choose an activity</div>
+    </div>
+
+</body>
+
+</html>
